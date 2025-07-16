@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STEMSeeds - Growing Young Minds Through STEM</title>
+    <title>STEMSeeds</title>
     <style>
         * {
             margin: 0;
@@ -20,6 +20,44 @@
             background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
             overflow-x: hidden;
             scroll-behavior: smooth;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(129, 199, 132, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(102, 187, 106, 0.05) 0%, transparent 50%);
+            animation: backgroundShift 15s ease-in-out infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { 
+                background: 
+                    radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(129, 199, 132, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 80%, rgba(102, 187, 106, 0.05) 0%, transparent 50%);
+            }
+            33% { 
+                background: 
+                    radial-gradient(circle at 70% 30%, rgba(76, 175, 80, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 30% 70%, rgba(129, 199, 132, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 90% 40%, rgba(102, 187, 106, 0.05) 0%, transparent 50%);
+            }
+            66% { 
+                background: 
+                    radial-gradient(circle at 10% 80%, rgba(76, 175, 80, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 60% 10%, rgba(129, 199, 132, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 90%, rgba(102, 187, 106, 0.05) 0%, transparent 50%);
+            }
         }
 
         .container {
@@ -50,41 +88,9 @@
 
         nav {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-image {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #66bb6a 0%, #81c784 100%);
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-            transition: transform 0.3s ease;
-            overflow: hidden;
-        }
-
-        .logo-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .logo-image:hover {
-            transform: scale(1.1) rotate(5deg);
+            align-items: center;
+            position: relative;
         }
 
         .nav-links {
@@ -101,21 +107,6 @@
             padding: 8px 16px;
             border-radius: 20px;
             overflow: hidden;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .nav-links a:hover::before {
-            left: 100%;
         }
 
         .nav-links a::after {
@@ -136,18 +127,106 @@
 
         .nav-links a:hover {
             color: #c8e6c9;
-            transform: translateY(-2px);
-            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px) scale(1.05);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            filter: brightness(1.1);
+        }
+
+        .nav-links a:active {
+            transform: translateY(-1px) scale(1.02);
+            transition: all 0.1s ease;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+            position: absolute;
+            right: 0;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            z-index: 1000;
+            padding-top: 80px;
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .mobile-nav li {
+            margin: 30px 0;
+        }
+
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            display: block;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
         }
 
         /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #43a047 100%);
             color: white;
-            padding: 120px 0 80px;
+            padding: 200px 0 150px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
         }
 
         .hero::before {
@@ -157,8 +236,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            animation: float 20s infinite linear;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.2)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.15)"/><circle cx="50" cy="70" r="1" fill="rgba(255,255,255,0.25)"/><circle cx="10" cy="80" r="0.5" fill="rgba(255,255,255,0.3)"/><circle cx="90" cy="10" r="1" fill="rgba(255,255,255,0.2)"/></svg>') repeat;
+            animation: floatParticles 25s infinite linear;
         }
 
         .hero::after {
@@ -173,14 +252,35 @@
             animation: pulseGlow 8s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-100px); }
+        @keyframes floatParticles {
+            0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) translateX(10px) rotate(90deg); }
+            50% { transform: translateY(-40px) translateX(-5px) rotate(180deg); }
+            75% { transform: translateY(-60px) translateX(15px) rotate(270deg); }
+            100% { transform: translateY(-100px) translateX(0px) rotate(360deg); }
         }
 
         @keyframes pulseGlow {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.05); }
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1) rotate(0deg); 
+                filter: hue-rotate(0deg);
+            }
+            33% { 
+                opacity: 0.6; 
+                transform: scale(1.03) rotate(120deg); 
+                filter: hue-rotate(60deg);
+            }
+            66% { 
+                opacity: 0.4; 
+                transform: scale(0.98) rotate(240deg); 
+                filter: hue-rotate(180deg);
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-100px); }
         }
 
         .hero-content {
@@ -189,21 +289,46 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
+            font-size: 4.5rem;
+            margin-bottom: 30px;
             font-weight: 700;
             opacity: 0;
             animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards,
                        textGlow 3s ease-in-out 1.3s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1::after {
+            content: '|';
+            display: inline-block;
+            animation: blink 1s infinite;
+            color: #81c784;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
+            font-size: 1.6rem;
+            margin-bottom: 40px;
             font-weight: 400;
             opacity: 0;
             animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards,
-                       breathe 4s ease-in-out 1.6s infinite;
+                       breathe 4s ease-in-out 1.6s infinite,
+                       rainbow 8s ease-in-out 2s infinite;
+        }
+
+        @keyframes rainbow {
+            0%, 100% { color: white; }
+            16% { color: #ffcdd2; }
+            33% { color: #f8bbd9; }
+            50% { color: #e1bee7; }
+            66% { color: #c5cae9; }
+            83% { color: #bbdefb; }
         }
 
         @keyframes textGlow {
@@ -287,7 +412,7 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
             font-weight: 500;
@@ -295,23 +420,7 @@
             position: relative;
             overflow: hidden;
             opacity: 0;
-            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards,
-                       buttonPulse 2s ease-in-out 2.2s infinite;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
+            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
         }
 
         .cta-button:hover {
@@ -321,11 +430,6 @@
 
         .cta-button:active {
             transform: translateY(-1px) scale(1.02);
-        }
-
-        @keyframes buttonPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(102, 187, 106, 0); }
         }
 
         /* Keyframe Animations */
@@ -469,6 +573,17 @@
             overflow: hidden;
         }
 
+        .feature-card.visible {
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-3px) rotate(0.3deg); }
+            50% { transform: translateY(-6px) rotate(0deg); }
+            75% { transform: translateY(-3px) rotate(-0.3deg); }
+        }
+
         .feature-card::before {
             content: '';
             position: absolute;
@@ -515,9 +630,12 @@
 
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
             margin-top: 50px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .team-member {
@@ -531,6 +649,11 @@
             transform: translateY(30px);
             position: relative;
             overflow: hidden;
+        }
+
+        .team-member.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .team-member::before {
@@ -637,9 +760,12 @@
 
         .programs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 30px;
             margin-top: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .program-card {
@@ -654,6 +780,11 @@
             transform: translateY(30px);
             position: relative;
             overflow: hidden;
+        }
+
+        .program-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .program-card::before {
@@ -692,8 +823,8 @@
         .program-card:hover .program-icon {
             transform: scale(1.2) rotate(-5deg);
             animation: bounce 0.6s ease-in-out;
-        }shadow: 0 20px 40px rgba(76, 175, 80, 0.25);
         }
+        
 
         .program-icon {
             font-size: 3rem;
@@ -771,12 +902,25 @@
                 display: none;
             }
 
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            .hero {
+                padding: 150px 0 100px;
+                min-height: 80vh;
+            }
+
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
 
             .hero p {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
             }
 
             .hero-social {
@@ -800,6 +944,11 @@
                 grid-template-columns: 1fr;
             }
 
+            .programs-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
             .contact-info {
                 flex-direction: column;
                 gap: 20px;
@@ -809,8 +958,8 @@
         /* Scroll Animation Classes */
         .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .fade-in.visible {
@@ -820,24 +969,46 @@
 
         .slide-in-left {
             opacity: 0;
-            transform: translateX(-50px);
-            transition: all 0.6s ease;
+            transform: translateX(-80px) rotate(-5deg);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .slide-in-left.visible {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateX(0) rotate(0deg);
         }
 
         .slide-in-right {
             opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.6s ease;
+            transform: translateX(80px) rotate(5deg);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .slide-in-right.visible {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateX(0) rotate(0deg);
+        }
+
+        .zoom-in {
+            opacity: 0;
+            transform: scale(0.8) rotate(10deg);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .zoom-in.visible {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        .bounce-in {
+            opacity: 0;
+            transform: scale(0.3) translateY(-100px);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .bounce-in.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
         }
 
         /* Scroll indicator */
@@ -853,18 +1024,12 @@
         }
     </style>
 </head>
+
 <body>
     <div class="scroll-indicator"></div>
-    
+
     <header>
         <nav class="container">
-            <div class="logo">
-                <div class="logo-image">
-                    <img src="https://via.placeholder.com/40x40/66bb6a/ffffff?text=S" alt="STEMSeeds Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <span style="display: none;">🌱</span>
-                </div>
-                STEMSeeds
-            </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -872,7 +1037,21 @@
                 <li><a href="#programs">Programs</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
+        <div class="mobile-nav">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
     </header>
 
     <section id="home" class="hero">
@@ -1011,7 +1190,7 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <span style="font-size: 1.5rem;">📧</span>
-                        <a href="mailto:info@stemseeds.org">info@stemseeds.org</a>
+                        <a href="mailto:stemseeds.nj@gmail.com">stemseeds.nj@gmail.com</a>
                     </div>
                     <div class="contact-item">
                         <span style="font-size: 1.5rem;">📱</span>
@@ -1028,12 +1207,45 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 STEMSeeds. All rights reserved. | Planting seeds for the future through STEM education</p>
+            <p>&copy; 2025 STEMSeeds. All rights reserved. | Planting seeds for the future through STEM education</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
+        // ==========================================
+        // MOBILE MENU FUNCTIONALITY
+        // ==========================================
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu when clicking on a link
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.mobile-menu-btn') && !e.target.closest('.mobile-nav')) {
+                mobileMenuBtn.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ==========================================
+        // SMOOTH SCROLLING
+        // ==========================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1047,7 +1259,9 @@
             });
         });
 
-        // Scroll indicator
+        // ==========================================
+        // SCROLL INDICATOR
+        // ==========================================
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset;
             const docHeight = document.body.scrollHeight - window.innerHeight;
@@ -1055,26 +1269,68 @@
             document.querySelector('.scroll-indicator').style.width = scrollPercent + '%';
         });
 
-        // Intersection Observer for scroll animations
+        // ==========================================
+        // SCROLL ANIMATIONS
+        // ==========================================
+        // Intersection Observer for scroll animations with staggered effects
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                        // Add extra animations for specific elements
+                        if (entry.target.classList.contains('feature-card')) {
+                            entry.target.style.animationDelay = `${index * 0.2}s`;
+                        }
+                        if (entry.target.classList.contains('team-member')) {
+                            entry.target.style.animationDelay = `${index * 0.3}s`;
+                        }
+                    }, index * 100); // Stagger the animations
                 }
             });
         }, observerOptions);
 
-        // Observe all animated elements
-        document.querySelectorAll('.section-title, .about-text, .feature-card, .team-member, .program-card, .contact-item').forEach(el => {
+        // Observe all animated elements with different animation classes
+        document.querySelectorAll('.section-title').forEach((el, index) => {
+            el.classList.add('fade-in');
             observer.observe(el);
         });
 
-        // Header scroll effect
+        document.querySelectorAll('.about-text').forEach((el, index) => {
+            el.classList.add('slide-in-left');
+            observer.observe(el);
+        });
+
+        document.querySelectorAll('.feature-card').forEach((el, index) => {
+            el.classList.add(index % 2 === 0 ? 'zoom-in' : 'bounce-in');
+            el.style.animationDelay = `${index * 0.1}s`;
+            observer.observe(el);
+        });
+
+        document.querySelectorAll('.team-member').forEach((el, index) => {
+            el.classList.add('slide-in-right');
+            observer.observe(el);
+        });
+
+        document.querySelectorAll('.program-card').forEach((el, index) => {
+            el.classList.add('fade-in');
+            el.style.animationDelay = `${index * 0.15}s`;
+            observer.observe(el);
+        });
+
+        document.querySelectorAll('.contact-item').forEach((el, index) => {
+            el.classList.add('bounce-in');
+            observer.observe(el);
+        });
+
+        // ==========================================
+        // HEADER SCROLL EFFECTS
+        // ==========================================
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             if (window.scrollY > 100) {
@@ -1086,13 +1342,77 @@
             }
         });
 
-        // Add stagger animation to cards
+        // ==========================================
+        // ENHANCED CARD ANIMATIONS
+        // ==========================================
         const cards = document.querySelectorAll('.feature-card, .program-card, .team-member');
         cards.forEach((card, index) => {
             card.style.transitionDelay = `${index * 0.1}s`;
+            
+            // Add floating animation with different delays only to feature cards
+            if (card.classList.contains('feature-card')) {
+                card.style.animationDelay = `${index * 0.5}s`;
+            }
+            
+            // Add gentle hover effect
+            card.addEventListener('mouseenter', function() {
+                if (this.classList.contains('team-member') || this.classList.contains('program-card')) {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                } else {
+                    this.style.transform = 'translateY(-10px) scale(1.03)';
+                }
+                this.style.filter = 'brightness(1.05)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.filter = '';
+            });
         });
 
-        // Add hover effects to social icons
+        // ==========================================
+        // INTERACTIVE EFFECTS
+        // ==========================================
+        // Parallax mouse tracking effect (reduced intensity)
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.feature-card');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const speed = (index + 1) * 0.2; // Reduced from 0.5
+                const xMove = (x - 0.5) * speed;
+                const yMove = (y - 0.5) * speed;
+                
+                // Only apply to feature cards, not team or program cards
+                if (!card.style.transform.includes('translate')) {
+                    card.style.transform = `translate(${xMove}px, ${yMove}px)`;
+                }
+            });
+        });
+
+        // Sparkle effect on click
+        document.addEventListener('click', (e) => {
+            const sparkle = document.createElement('div');
+            sparkle.style.cssText = `
+                position: fixed;
+                left: ${e.clientX}px;
+                top: ${e.clientY}px;
+                width: 10px;
+                height: 10px;
+                background: radial-gradient(circle, #4caf50, #81c784);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                animation: sparkleEffect 0.8s ease-out forwards;
+            `;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 800);
+        });
+
+        // ==========================================
+        // SOCIAL ICON EFFECTS
+        // ==========================================
         document.querySelectorAll('.hero-social-icon').forEach(icon => {
             icon.addEventListener('mouseenter', () => {
                 icon.style.transform = 'translateY(-3px) scale(1.1)';
@@ -1102,37 +1422,33 @@
             });
         });
 
-        // Add click animations to CTA button
-        document.querySelector('.cta-button').addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.cssText = `
-                position: absolute;
-                width: ${size}px;
-                height: ${size}px;
-                left: ${x}px;
-                top: ${y}px;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                transform: scale(0);
-                animation: ripple 0.6s ease-out;
-                pointer-events: none;
-            `;
-            
-            this.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
-        });
-
-        // Add ripple animation CSS
+        // ==========================================
+        // DYNAMIC CSS ANIMATIONS
+        // ==========================================
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(2);
+            @keyframes sparkleEffect {
+                0% {
+                    transform: scale(0) rotate(0deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.5) rotate(180deg);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: scale(0) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes floatUp {
+                0% {
+                    transform: translateY(0) scale(1);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translateY(-100px) scale(0);
                     opacity: 0;
                 }
             }
@@ -1141,4 +1457,3 @@
     </script>
 </body>
 </html>
-                    
